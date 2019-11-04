@@ -1,0 +1,21 @@
+{
+  "name": "gilded-rose-kata",
+  "version": "1.0.0",
+  "description": "Gilded Rose kata in TypeScript",
+  "scripts": {
+    "compile": "tsc",
+    "test": "jest"
+  },
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/jest": "^24.0.19",
+    "@types/node": "~7.0.18",
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.4",
+    "ts-jest": "^24.1.0",
+    "ts-node": "~3.1.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.0.3"
+  }
+}
