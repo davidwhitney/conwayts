@@ -1,9 +1,9 @@
 import { Conway } from "./conway";
 
-describe("Conways game of life", () => {
+describe("Conway's game of life", () => {
 
     it("Snapshot returns grid of correct size", () => {
-        const conway = new Conway(10, 10);
+        const conway = new Conway(Conway.EmptyBoard(10, 10));
 
         const grid = conway.snapshot();
 
@@ -22,7 +22,7 @@ describe("Conways game of life", () => {
     });
 
     it("Can generate an initial state where half or less cells are alive", () => {
-        const conway = new Conway(4, 4).randomise();
+        const conway = new Conway(Conway.EmptyBoard(4, 4)).randomise();
 
         const flattened = conway.toString();
         const nonEmptyElements = flattened.replace(/ /g, '');
@@ -31,8 +31,7 @@ describe("Conways game of life", () => {
     });
 
     it("Living cells with less than two neighbours die when game ticks", () => {
-        const conway = new Conway(4, 4)
-            .withState([
+        const conway = new Conway([
                 [' ', ' ', ' ', ' '],
                 [' ', '#', ' ', ' '],
                 [' ', ' ', ' ', ' '],
@@ -51,8 +50,7 @@ describe("Conways game of life", () => {
     });
 
     it("Living cells with greater than three neighbours die when game ticks", () => {
-        const conway = new Conway(4, 4)
-            .withState([
+        const conway = new Conway([
                 [' ', '#', ' ', ' '],
                 [' ', '#', ' ', ' '],
                 [' ', '#', ' ', ' '],
@@ -71,8 +69,7 @@ describe("Conways game of life", () => {
     });
 
     it("Living cells with 2-3 neighbours live when game ticks", () => {
-        const conway = new Conway(4, 4)
-            .withState([
+        const conway = new Conway(([
                 [' ', '#', ' ', ' '],
                 ['#', ' ', '#', ' '],
                 [' ', '#', ' ', ' '],
@@ -91,8 +88,7 @@ describe("Conways game of life", () => {
     });
 
     it("Dead cells with 3 living neighbours come alive when game ticks", () => {
-        const conway = new Conway(4, 4)
-            .withState([
+        const conway = new Conway([
                 [' ', '#', ' ', ' '],
                 ['#', '#', ' ', ' '],
                 [' ', ' ', ' ', ' '],
