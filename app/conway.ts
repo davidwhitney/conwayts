@@ -24,8 +24,8 @@ export class Conway {
         while(!cell.done) {
 
             const { x, y, current } = cell.value;
-            const alive = this.isAlive(x, y);
-            const living = this.livingNeighbours(x, y);
+            const alive: boolean = this.isAlive(x, y);
+            const living: number = this.livingNeighbours(x, y);
 
             const mutations = [
                 { match: () => alive && living < 2 || living > 3, then: Conway.DEAD },
