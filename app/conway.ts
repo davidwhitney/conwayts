@@ -5,6 +5,7 @@ export class Conway {
 
     public totalCells = (): number => this._width * this._height;
     private isAlive = (x: number, y: number) => this._grid[y][x] == Conway.ALIVE;
+
     private static readonly ALIVE: string = '#';
     private static readonly DEAD: string = ' ';
 
@@ -21,32 +22,33 @@ export class Conway {
         const iterator = this.allCells();
 
         let cell = iterator.next();
-        while(!cell.done) {
+        while (!cell.done) {
 
             const { x, y, current } = cell.value;
             const alive: boolean = this.isAlive(x, y);
             const living: number = this.livingNeighbours(x, y);
 
-            const mutations = [
-                { match: () => alive && living < 2 || living > 3, then: Conway.DEAD },
-                { match: () => alive && living == 2 || living == 3, then: Conway.ALIVE },
-                { match: () => !alive && living == 3, then: Conway.ALIVE },
-                { match: () => !alive, then: current },
+            const stateChanges = [
+                { when: () => alive && living < 2 || living > 3, cellState: Conway.DEAD },
+                { when: () => alive && living == 2 || living == 3, cellState: Conway.ALIVE },
+                { when: () => !alive && living == 3, cellState: Conway.ALIVE },
+                { when: () => !alive, cellState: current },
             ];
 
-            const effect = mutations.filter(c=> c.match())[0];
-            snapshot[y][x] = effect.then;
+            const firstMatchingRule = stateChanges.filter(c => c.when())[0];
+            snapshot[y][x] = firstMatchingRule.cellState;
             cell = iterator.next();
         }
 
         this._grid = snapshot;
     }
 
-    private livingNeighbours(x: number, y: number) {
+    private livingNeighbours(x: number, y: number): number {
          return this.neighboursOf(x, y).join('').replace(/ /g, '').length;
     }
 
-    public snapshot = (): string[][] => JSON.parse(JSON.stringify(this._grid));
+    public snapshot = (): string[][] => JSON.parse(JSON.stringify(this._grid)); // YOLO
+
     public toString(divider: string = ''): string {
         let output = '';
         for(let i in this._grid) {
@@ -84,7 +86,7 @@ export class Conway {
         }
     }
 
-    private static randomBetween(min, max) {
+    private static randomBetween(min: number, max: number): number {
         return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min))) + min;
     }
 
